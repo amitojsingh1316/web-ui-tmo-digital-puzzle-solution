@@ -9,6 +9,7 @@ import {
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'tmo-book-search',
@@ -58,10 +59,12 @@ export class BookSearchComponent implements OnInit {
   onSearchBooks() {
     const searchValue = this.searchForm.value.term;
     if (searchValue && this.preValue !== searchValue) {
+       // Wait for 500ms before searching
+      debounceTime(500);
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
       this.preValue = searchValue;
     } else if(this.preValue === searchValue) {
-      return false;
+      return;
     } else {
       clearSearch();
     }
