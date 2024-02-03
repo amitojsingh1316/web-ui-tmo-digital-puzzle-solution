@@ -19,6 +19,13 @@ form {
   flex-direction: column;
   margin: 2px;
   padding: $spacing-xxs;
+  background-color: $gray20;
+  border: 1px solid;
+}
+.book:focus{
+  background-color: $gray80;
+}
+.book:hover{
   background-color: $gray10;
 }
 
@@ -57,6 +64,11 @@ form {
       position: absolute;
       bottom: 0;
       right: 0;
+
+      &:hover, &:focus {
+        border: 2px solid $black;
+        color: $white;
+      }
     }
   }
 }
