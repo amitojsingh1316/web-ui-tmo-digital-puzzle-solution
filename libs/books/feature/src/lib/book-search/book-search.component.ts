@@ -17,6 +17,7 @@ import { Book } from '@tmo/shared/models';
 })
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
+  preValue: "";
 
   searchForm = this.fb.group({
     term: ''
@@ -32,9 +33,11 @@ export class BookSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.searchTerm !== this.preValue){
     this.store.select(getAllBooks).subscribe(books => {
       this.books = books;
     });
+  }
   }
 
   formatDate(date: void | string) {
@@ -47,16 +50,24 @@ export class BookSearchComponent implements OnInit {
     this.store.dispatch(addToReadingList({ book }));
   }
 
-  searchExample() {
+  onSearchExample() {
     this.searchForm.controls.term.setValue('javascript');
-    this.searchBooks();
+    this.onSearchBooks();
   }
 
-  searchBooks() {
-    if (this.searchForm.value.term) {
+  onSearchBooks() {
+    const searchValue = this.searchForm.value.term;
+    if (searchValue && this.preValue !== searchValue) {
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
+      this.preValue = searchValue;
+    } else if(this.preValue === searchValue) {
+      return false;
     } else {
-      this.store.dispatch(clearSearch());
+      clearSearch();
     }
+  }
+
+  clearSearch(){
+    this.store.dispatch(clearSearch());
   }
 }

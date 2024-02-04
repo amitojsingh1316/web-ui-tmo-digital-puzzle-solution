@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm" (submit)="searchBooks()">
+<form [formGroup]="searchForm" (submit)="onSearchBooks()">
   <mat-form-field floatLabel="never">
     <input
       autoFocus
@@ -6,6 +6,7 @@
       type="search"
       placeholder="Search for books to add to your reading list"
       formControlName="term"
+      (ngModelChange)="clearSearch()"
     />
     <button mat-icon-button matSuffix>
       <mat-icon>search</mat-icon>
@@ -34,6 +35,7 @@
             <button
               mat-flat-button
               color="primary"
+              class="want-btn"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
             >
@@ -48,7 +50,7 @@
 <ng-template #empty>
   <div class="empty">
     <p>
-      Try searching for a topic, for example "<a (click)="searchExample()"
+      Try searching for a topic, for example "<a (click)="onSearchExample()"
         >JavaScript</a
       >".
     </p>
