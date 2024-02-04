@@ -54,7 +54,7 @@ describe('When: I use the search and reading list feature', () => {
     cy.get('[data-testing="toggle-reading-list"]').click();
   });
 
-it('Then: clicking on complete button removes the book from Reading List',() =>{
+it('Then: clicking on complete button the button on the book should be changed to finished',() =>{
   cy.get('[data-testing="remove-completed-button"]').then((initalLengthOfAddedButtons)=>{
     const lengthOfAddedButtons = Cypress.$(initalLengthOfAddedButtons).length;
       cy.get('[data-testing="complete-button"]').first().click();
