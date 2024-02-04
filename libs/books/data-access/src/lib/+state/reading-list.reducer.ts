@@ -58,7 +58,17 @@ const readingListReducer = createReducer(
   on(ReadingListActions.failedRemoveFromReadingList, (state, action) => {
     // Undo failed removal by adding the book back to the list
     return readingListAdapter.addOne(action.item, state);
-  })
+  }),
+  on(ReadingListActions.addToFinishedList, (state, action) =>
+  readingListAdapter.removeOne(action.item.bookId, state),
+  // readingListAdapter.addOne({ bookId: action.item.bookId, finished: true, finishedDate: new Date().toISOString(), ...action.item }, state)
+),
+on(ReadingListActions.confirmedAddToFinishedList, (state, action) => {
+  // Undo failed removal by adding the book back to the list
+  // return readingListAdapter.addOne(action.item, state);
+  return readingListAdapter.addOne({ bookId: action.item.bookId, finished: true, finishedDate: new Date().toISOString(), ...action.item }, state)
+})
+
 );
 
 export function reducer(state: State | undefined, action: Action) {

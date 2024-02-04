@@ -20,4 +20,8 @@ export class ReadingListController {
   async removeFromReadingList(@Param() params) {
     return await this.readingList.removeBook(params.id);
   }
+  @Delete('/reading-list/:id/finished')
+  async addingToFinishedList(@Param() params) {
+    return await this.readingList.updatetoFinishedBook(params.id);
+  }
 }
