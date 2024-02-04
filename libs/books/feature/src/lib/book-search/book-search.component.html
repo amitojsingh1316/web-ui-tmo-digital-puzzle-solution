@@ -39,6 +39,7 @@
               [class.book-finished]="b.isFinished"
               (click)="addBookToReadingList(b)"
               [attr.data-testing]="b.isAdded ? 'already-added-btn' : 'want-to-read-btn'"
+              [attr.data-testing-finish]="b.isFinished ? 'finished':''"
               [disabled]="b.isAdded || b.isFinished"
             >
               {{ b.isFinished ? "Finished" : "Want to Read"}}
