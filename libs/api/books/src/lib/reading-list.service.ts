@@ -17,6 +17,7 @@ export class ReadingListService {
       const { id, ...rest } = b;
       list.push({
         bookId: id,
+        added: true,
         ...rest
       });
       return list;

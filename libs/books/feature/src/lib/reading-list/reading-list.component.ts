@@ -10,8 +10,9 @@ import { map } from 'rxjs/operators';
 })
 export class ReadingListComponent {
   readingList$ = this.store.select(getReadingList);
-  // booksToRead$ = this.readingList$.pipe(
-  // );
+  booksToRead$ = this.readingList$.pipe(
+    map(readingList => readingList.filter(book => book.added===true))
+  );
   finishedList$ = this.readingList$.pipe(
     map(readingList => readingList.filter(book => book.finished===true))
   );
@@ -24,5 +25,11 @@ export class ReadingListComponent {
 
   addingIntoFinishedList(item){
     this.store.dispatch(addToFinishedList({ item }));
+  }
+
+  formatDate(date: void | string) {
+    return date
+      ? new Intl.DateTimeFormat('en-US').format(new Date(date))
+      : undefined;
   }
 }
