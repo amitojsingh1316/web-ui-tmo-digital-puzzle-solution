@@ -34,6 +34,7 @@
           <div>
             <button
               mat-flat-button
+              [attr.data-testing]="b.isAdded ? 'already-added-btn' : 'want-to-read-btn'"
               color="primary"
               class="want-btn"
               (click)="addBookToReadingList(b)"

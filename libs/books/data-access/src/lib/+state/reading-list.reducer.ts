@@ -51,11 +51,11 @@ const readingListReducer = createReducer(
   on(ReadingListActions.removeFromReadingList, (state, action) =>
     readingListAdapter.removeOne(action.item.bookId, state)
   ),
-  on(ReadingListActions.failedAddToReadingList, (state, action) => {
+  on(ReadingListActions.failedAddToReadingList, ReadingListActions.undoAddToReadingList, (state, action) => {
     // Undo failed addition by removing the book with the specified ID
     return readingListAdapter.removeOne(action.book.id, state);
   }),
-  on(ReadingListActions.failedRemoveFromReadingList, (state, action) => {
+  on(ReadingListActions.failedRemoveFromReadingList,ReadingListActions.undoRemoveFromReadingList, (state, action) => {
     // Undo failed removal by adding the book back to the list
     return readingListAdapter.addOne(action.item, state);
   })
