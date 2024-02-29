@@ -7,9 +7,9 @@ import {
   ReadingListBook,
   searchBooks
 } from '@tmo/books/data-access';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'tmo-book-search',
@@ -19,15 +19,27 @@ import { debounceTime } from 'rxjs/operators';
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
   preValue: "";
+  searchForm: FormGroup;
 
-  searchForm = this.fb.group({
-    term: ''
-  });
+  
 
   constructor(
-    private readonly store: Store,
-    private readonly fb: FormBuilder
-  ) {}
+    private store: Store,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      term: ''
+    });
+    this.searchForm.get('term').valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(term => {
+        this.store.dispatch(searchBooks({ term }));
+        return [];
+      })
+    ).subscribe();
+  }
+
 
   get searchTerm(): string {
     return this.searchForm.value.term;

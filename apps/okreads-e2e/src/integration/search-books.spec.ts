@@ -17,7 +17,7 @@ describe('When: Use the search feature', () => {
 
     // Typing the search terms and checking results dynamically
     cy.get('input[type="search"]').type(searchTerm);
-    cy.wait(5000);
+    cy.wait(500);
     // Assert that the results are updating as the user type
     cy.get('[data-testing="book-item"]').should('have.length.gte', expectedResultsCount);
 });
