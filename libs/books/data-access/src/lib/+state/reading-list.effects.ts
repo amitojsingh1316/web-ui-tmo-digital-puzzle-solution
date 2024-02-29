@@ -60,7 +60,7 @@ export class ReadingListEffects implements OnInitEffects {
     ofType(ReadingListActions.addToFinishedList),
     optimisticUpdate({
       run: ({ item }) => {
-        return this.http.delete(`/api/reading-list/${item.bookId}/finished`).pipe(
+        return this.http.put(`/api/reading-list/${item.bookId}/finished`, item).pipe(
           map(()=>ReadingListActions.confirmedAddToFinishedList({ item }))
         )
       },

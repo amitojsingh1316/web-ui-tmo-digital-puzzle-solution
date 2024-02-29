@@ -30,7 +30,7 @@ export class ReadingListService {
     });
   }
 
-  async updatetoFinishedBook(id: string): Promise<void> {
+  async updatetoFinishedBook(id: string, _item: ReadingListItem): Promise<void> {
     this.storage.update(list => {
       const bookToUpdate = list.filter(x => x.bookId === id)[0];
       const { bookId, finished, ...rest } = bookToUpdate;
