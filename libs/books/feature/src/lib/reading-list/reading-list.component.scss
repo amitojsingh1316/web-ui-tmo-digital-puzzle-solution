@@ -19,6 +19,12 @@
     flex-direction: column;
     justify-content: center;
   }
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+
+  }
 }
 
 .reading-list-item--cover {

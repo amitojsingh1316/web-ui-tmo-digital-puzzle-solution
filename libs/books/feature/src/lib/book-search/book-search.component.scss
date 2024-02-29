@@ -65,9 +65,21 @@ form {
       bottom: 0;
       right: 0;
 
+      &.book-finished {
+        color: $white;
+        background-color: $green;
+      }
+
+      &:not([disabled]){
       &:hover, &:focus {
         border: 2px solid $black;
         color: $white;
+      }
+    }
+    }
+    button[disabled] {
+      &:hover,&:focus {
+        cursor: not-allowed;
       }
     }
   }

@@ -1,26 +1,57 @@
-<ng-container *ngIf="(readingList$ | async).length > 0; else empty">
-  <div class="reading-list-item" *ngFor="let b of readingList$ | async">
-    <div>
-      <img class="reading-list-item--cover" [src]="b.coverUrl" />
-    </div>
-    <div class="reading-list-item--details">
-      <strong class="reading-list-item--details--title">{{ b.title }}</strong>
-      <div class="reading-list-item--details--author">
-        {{ b.authors.join(',') }}
+<ng-container *ngIf="(booksToRead$ | async).length > 0; else empty">
+  <div class="reading-list-item" *ngFor="let b of booksToRead$ | async">
+      <div *ngIf="!b.finished">
+        <img class="reading-list-item--cover" [src]="b.coverUrl" />
       </div>
-    </div>
-    <div>
-      <button
-        mat-icon-button
-        color="warn"
-        [attr.aria-label]="'Remove ' + b.title + ' from reading list'"
-        (click)="removeFromReadingList(b)"
-      >
-        <mat-icon>remove_circle</mat-icon>
-      </button>
-    </div>
+      <div *ngIf="!b.finished" class="reading-list-item--details">
+        <strong class="reading-list-item--details--title">{{ b.title }}</strong>
+        <div class="reading-list-item--details--author">
+          {{ b.authors.join(',') }}
+        </div>
+      </div>
+      <div class="action-buttons" *ngIf="!b.finished">
+        <button mat-icon-button  data-testing = "complete-button"  color="primary" [attr.aria-label]="'Adding ' + b.title + ' into finished list'"
+          (click)="addingIntoFinishedList(b)">
+          <mat-icon>check_circle</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" data-testing = "remove-reading-button" [attr.aria-label]="'Remove ' + b.title + ' from reading list'"
+          (click)="removeFromReadingList(b)">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
   </div>
 </ng-container>
 <ng-template #empty>
   <p class="empty">You haven't added any books to your reading list yet.</p>
+</ng-template>
+
+<ng-container *ngIf="(finishedList$ | async).length > 0; else emptyF">
+  <div>
+    <h2>Completed Books </h2>
+
+  </div>
+  <div class="reading-list-item"  *ngFor="let b of finishedList$ | async">
+      <div  *ngIf="b.finished">
+        <img class="reading-list-item--cover" [src]="b.coverUrl" />
+      </div>
+      <div  *ngIf="b.finished" class="reading-list-item--details">
+        <strong class="reading-list-item--details--title">{{ b.title }}</strong>
+        <div class="reading-list-item--details--author">
+          {{ b.authors.join(',') }}
+        </div>
+        <div class="reading-list-item--details--date">
+          <strong>Completed on:</strong> {{ formatDate(b.finishedDate) }}
+        </div>
+      </div>
+      <button *ngIf="b.finished" data-testing = "remove-completed-button" mat-icon-button color="warn" [attr.aria-label]="'Remove ' + b.title + ' from reading list'"
+        (click)="removeFromReadingList(b)">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+  </div>
+</ng-container>
+<ng-template #emptyF>
+  <div>
+    <h2>Completed Books </h2>
+  </div>
+  <p class="empty">You haven't added any books to your finished list yet.</p>
 </ng-template>

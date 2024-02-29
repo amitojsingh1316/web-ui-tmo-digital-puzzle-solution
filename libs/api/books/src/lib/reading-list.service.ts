@@ -17,6 +17,7 @@ export class ReadingListService {
       const { id, ...rest } = b;
       list.push({
         bookId: id,
+        added: true,
         ...rest
       });
       return list;
@@ -27,5 +28,29 @@ export class ReadingListService {
     this.storage.update(list => {
       return list.filter(x => x.bookId !== id);
     });
+  }
+
+  async updatetoFinishedBook(id: string, _item: ReadingListItem): Promise<void> {
+    this.storage.update(list => {
+      const bookToUpdate = list.filter(x => x.bookId === id)[0];
+      const { bookId, finished, ...rest } = bookToUpdate;
+
+      if (!finished) {
+        const payload = {
+          bookId: bookId,
+          finished: true,
+          finishedDate: new Date().toISOString(),
+          ...rest
+        }
+
+        const index = list.findIndex((book) => book.bookId === payload.bookId);
+        if (index !== -1) {
+          list[index] = payload;
+        }
+      }
+
+      return list;
+    });
+
   }
 }

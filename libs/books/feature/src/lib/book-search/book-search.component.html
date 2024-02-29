@@ -36,10 +36,13 @@
               mat-flat-button
               color="primary"
               class="want-btn"
+              [class.book-finished]="b.isFinished"
               (click)="addBookToReadingList(b)"
-              [disabled]="b.isAdded"
+              [attr.data-testing]="b.isAdded ? 'already-added-btn' : 'want-to-read-btn'"
+              [attr.data-testing-finish]="b.isFinished ? 'finished':''"
+              [disabled]="b.isAdded || b.isFinished"
             >
-              Want to Read
+              {{ b.isFinished ? "Finished" : "Want to Read"}}
             </button>
           </div>
         </div>
