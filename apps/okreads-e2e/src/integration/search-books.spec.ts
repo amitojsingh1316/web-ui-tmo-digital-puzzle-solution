@@ -11,7 +11,14 @@ describe('When: Use the search feature', () => {
     cy.get('[data-testing="book-item"]').should('have.length.greaterThan', 1);
   });
 
-  xit('Then: I should see search results as I am typing', () => {
-    // TODO: Implement this test!
-  });
+  it('Then: I should see search results as I am typing', () => {
+    const searchTerm = 'java'; // Initial part of the title to type
+    const expectedResultsCount = 2; // Expected number of search results
+
+    // Typing the search terms and checking results dynamically
+    cy.get('input[type="search"]').type(searchTerm);
+    cy.wait(500);
+    // Assert that the results are updating as the user type
+    cy.get('[data-testing="book-item"]').should('have.length.gte', expectedResultsCount);
+});
 });
